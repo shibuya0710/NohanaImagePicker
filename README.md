@@ -72,7 +72,7 @@ picker.canPickAsset = { (asset:Asset) -> Bool in
 
 ## Installation
 
-### Carthage
+### Carthage (preferable)
 
 Use [Carthage](https://github.com/Carthage/Carthage).
 
@@ -81,12 +81,29 @@ Use [Carthage](https://github.com/Carthage/Carthage).
   - If you want to use Swift2.3, add `github "nohana/NohanaImagePicker", "0.6.1"` instead.
   - If you want to use Swift2.2, add `github "nohana/NohanaImagePicker", "0.5.0"` instead.
 - Run `carthage update`.
-- Add following lines to your Info.plist:
+- Add the followings to your Info.plist:
 
 ```
 <key>NSPhotoLibraryUsageDescription</key>
 <string>To pick some photos.</string>
 ```
+
+### Framework with CocoaPods
+
+Use [CocoaPods](https://cocoapods.org/).
+
+- Try; ``pod try NohanaImagePicker``
+
+- Add the followings to your Podfile:
+
+```ruby
+use_frameworks!
+pod "NohanaImagePicker"
+```
+
+- If you want to use Swift2.3 write `pod "NohanaImagePicker",  "0.6.1"` instead of `pod "NohanaImagePicker"`.
+
+- Run `pod install`.
 
 ## License
 
