@@ -22,14 +22,16 @@ public class PhotoKitAlbumList: ItemList {
     private let assetCollectionSubtypes: [PHAssetCollectionSubtype]
     private let mediaType: MediaType
     private var shouldShowEmptyAlbum: Bool
+    private let ascending: Bool
 
     // MARK: - init
 
-    init(assetCollectionTypes: [PHAssetCollectionType], assetCollectionSubtypes: [PHAssetCollectionSubtype], mediaType: MediaType, shouldShowEmptyAlbum: Bool, handler:(() -> Void)?) {
+    init(assetCollectionTypes: [PHAssetCollectionType], assetCollectionSubtypes: [PHAssetCollectionSubtype], mediaType: MediaType, shouldShowEmptyAlbum: Bool, ascending: Bool, handler:(() -> Void)?) {
         self.assetCollectionTypes = assetCollectionTypes
         self.assetCollectionSubtypes = assetCollectionSubtypes
         self.mediaType = mediaType
         self.shouldShowEmptyAlbum = shouldShowEmptyAlbum
+        self.ascending = ascending
         update { () -> Void in
             if let handler = handler {
                 handler()
@@ -51,27 +53,20 @@ public class PhotoKitAlbumList: ItemList {
             for type in self.assetCollectionTypes {
                 albumListFetchResult = albumListFetchResult + [PHAssetCollection.fetchAssetCollections(with: type, subtype: .any, options: nil)]
             }
-
             self.albumList = []
-            var tmpAlbumList: [Item] = []
             let isAssetCollectionSubtypeAny = self.assetCollectionSubtypes.contains(.any)
             for fetchResult in albumListFetchResult {
-                fetchResult.enumerateObjects({ (album, index, stop) in
-                    if self.assetCollectionSubtypes.contains(album.assetCollectionSubtype) || isAssetCollectionSubtypeAny {
-                        if self.shouldShowEmptyAlbum || PHAsset.fetchAssets(in: album, options: PhotoKitAssetList.fetchOptions(self.mediaType)).count != 0 {
-                            tmpAlbumList.append(PhotoKitAssetList(album: album, mediaType: self.mediaType))
+                Array(0..<fetchResult.count).chunked(by: 20).map({ IndexSet($0) }).forEach {
+                    fetchResult.enumerateObjects(at: $0, options: []) { (album, index, stop) in
+                        if self.assetCollectionSubtypes.contains(album.assetCollectionSubtype) || isAssetCollectionSubtypeAny {
+                            let assets = PhotoKitAssetList(album: album, mediaType: self.mediaType, ascending: self.ascending)
+                            if self.shouldShowEmptyAlbum || assets.count > 0 {
+                                self.albumList.append(assets)
+                            }
                         }
                     }
-                })
-            }
-            if self.assetCollectionTypes == [.moment] {
-                self.albumList =  tmpAlbumList.sorted { $0.date!.timeIntervalSince1970 < $1.date!.timeIntervalSince1970 }
-            } else {
-                self.albumList =  tmpAlbumList
-            }
-
-            if let handler = handler {
-                handler()
+                    handler?()
+                }
             }
         }
     }

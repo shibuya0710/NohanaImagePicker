@@ -15,10 +15,11 @@
  */
 
 import AVFoundation
+import UIKit
 
 extension Size {
 
-    static func expandingAnimationFromCellRect(_ fromVC: AssetListViewController, fromCell: AssetCell) -> CGRect {
+    static func expandingAnimationFromCellRect(_ fromVC: UICollectionViewController, fromCell: AssetCell) -> CGRect {
         let origin = CGPoint(x: fromCell.frame.origin.x, y: fromCell.frame.origin.y - fromVC.collectionView!.contentOffset.y)
         return CGRect(origin: origin, size: fromCell.frame.size)
     }
@@ -41,8 +42,9 @@ class ExpandingAnimationController: NSObject, UIViewControllerAnimatedTransition
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        guard let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as? AssetListViewController,
-            let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as? AssetDetailListViewController
+        guard let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as? UICollectionViewController,
+            fromVC is AssetListViewController || fromVC is MomentViewController,
+            let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as? DetailListViewControllerProtocol
             else {
                 return
         }

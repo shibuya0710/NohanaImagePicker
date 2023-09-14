@@ -16,6 +16,7 @@
 import UIKit
 import NohanaImagePicker
 import Photos
+import PhotosUI
 
 struct Cell {
     let title: String
@@ -30,6 +31,8 @@ class DemoListViewController: UITableViewController, NohanaImagePickerController
         Cell(title: "No toolbar", selector: #selector(DemoListViewController.showNoToolbarPicker)),
         Cell(title: "Disable to pick assets", selector: #selector(DemoListViewController.showDisableToPickAssetsPicker)),
         Cell(title: "Custom UI", selector: #selector(DemoListViewController.showCustomUIPicker)),
+        Cell(title: "Selectable Album Date Section", selector: #selector(DemoListViewController.showSelectableDateSectionPicker)),
+        Cell(title: "Specify the default album", selector: #selector(DemoListViewController.showSpecifyDefaultAlbumPicker)),
     ]
 
     override func viewDidAppear(_ animated: Bool) {
@@ -70,7 +73,13 @@ class DemoListViewController: UITableViewController, NohanaImagePickerController
     // MARK: - Photos
 
     func checkIfAuthorizedToAccessPhotos(_ handler: @escaping (_ isAuthorized: Bool) -> Void) {
-        switch PHPhotoLibrary.authorizationStatus() {
+        let status: PHAuthorizationStatus
+        if #available(iOS 14, *) {
+            status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+        } else {
+            status = PHPhotoLibrary.authorizationStatus()
+        }
+        switch status {
         case .notDetermined:
             PHPhotoLibrary.requestAuthorization { status in
                 DispatchQueue.main.async {
@@ -88,6 +97,10 @@ class DemoListViewController: UITableViewController, NohanaImagePickerController
             handler(false)
         case .authorized:
             handler(true)
+        case .limited:
+            handler(true)
+        @unknown default:
+            fatalError()
         }
     }
 
@@ -134,6 +147,45 @@ class DemoListViewController: UITableViewController, NohanaImagePickerController
         present(picker, animated: true, completion: nil)
     }
 
+    @objc func showSelectableDateSectionPicker() {
+        let picker = NohanaImagePickerController()
+        picker.canPickDateSection = true
+        picker.delegate = self
+        present(picker, animated: true, completion: nil)
+    }
+    
+    @objc func showSpecifyDefaultAlbumPicker() {
+        let subtypes: [PHAssetCollectionSubtype] = [
+            .albumRegular,
+            .albumSyncedEvent,
+            .albumSyncedFaces,
+            .albumSyncedAlbum,
+            .albumImported,
+            .albumMyPhotoStream,
+            .albumCloudShared,
+            .smartAlbumGeneric,
+            .smartAlbumFavorites,
+            .smartAlbumRecentlyAdded,
+            .smartAlbumUserLibrary
+        ]
+        var albumListFetchResult: [PHFetchResult<PHAssetCollection>] = []
+        let assetCollectionTypes: [PHAssetCollectionType] = [.smartAlbum, .album]
+        assetCollectionTypes.forEach {
+            albumListFetchResult += [PHAssetCollection.fetchAssetCollections(with: $0, subtype: .any, options: nil)]
+        }
+        var assetCollections: [PHAssetCollection] = []
+        albumListFetchResult.forEach {
+            $0.enumerateObjects { (assetCollection, _, _) in
+                if subtypes.contains(assetCollection.assetCollectionSubtype) {
+                    assetCollections.append(assetCollection)
+                }
+            }
+        }
+        let picker = NohanaImagePickerController(assetCollectionSubtypes: subtypes, mediaType: .photo, enableExpandingPhotoAnimation: false, defaultAssetCollection: assetCollections.last)
+        picker.delegate = self
+        present(picker, animated: true, completion: nil)
+    }
+
     // MARK: - NohanaImagePickerControllerDelegate
 
     func nohanaImagePickerDidCancel(_ picker: NohanaImagePickerController) {
@@ -167,6 +219,10 @@ class DemoListViewController: UITableViewController, NohanaImagePickerController
     func nohanaImagePicker(_ picker: NohanaImagePickerController, didSelectPhotoKitAsset asset: PHAsset) {
         print("🐷\(#function)\n\tasset = \(asset)\n\t")
     }
+    
+    func nohanaImagePicker(_ picker: NohanaImagePickerController, didSelectAssetDateSectionAssets assets: [PHAsset], date: Date?) {
+        print("🐷\(#function)\n\tasset = \(assets)\n\tDate = \(String(describing: date))")
+    }
 
     func nohanaImagePicker(_ picker: NohanaImagePickerController, didSelectPhotoKitAssetList assetList: PHAssetCollection) {
         print("🐷\(#function)\n\t\tassetList = \(assetList)\n\t")
@@ -188,5 +244,22 @@ class DemoListViewController: UITableViewController, NohanaImagePickerController
 
     func nohanaImagePicker(_ picker: NohanaImagePickerController, assetDetailListViewController: UICollectionViewController, didChangeAssetDetailPage indexPath: IndexPath, photoKitAsset: PHAsset) {
         print("🐷\(#function)\n\tindexPath = \(indexPath)")
+    }
+
+    func nohanaImagePickerDidTapAddPhotoButton(_ picker: NohanaImagePickerController) {
+        print("🐷\(#function)")
+        if #available(iOS 14, *) {
+            PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: picker)
+        }
+    }
+
+    func nohanaImagePickerDidTapAuthorizeAllPhotoButton(_ picker: NohanaImagePickerController) {
+        print("🐷\(#function)")
+        guard let url = URL(string: UIApplication.openSettingsURLString),
+            UIApplication.shared.canOpenURL(url) else {
+                assertionFailure("Not able to open App privacy settings")
+                return
+        }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 }

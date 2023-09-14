@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
+import UIKit
+
 struct Size {
 
     static var statusBarHeight: CGFloat {
-        if UIApplication.shared.isStatusBarHidden {
+        if UIApplication.shared.currentStatusBarHidden {
             return 0
         }
-        return UIApplication.shared.statusBarFrame.size.height
+        return UIApplication.shared.currentStatusBarFrame.size.height
     }
 
     static func navigationBarHeight(_ viewController: UIViewController) -> CGFloat {
@@ -59,7 +61,7 @@ struct Size {
         return CGRect(
             x: 0,
             y: appBarHeight,
-            width: UIScreen.main.bounds.width,
-            height: UIScreen.main.bounds.height - appBarHeight - toolbarHeight)
+            width: viewController.view.bounds.width,
+            height: viewController.view.bounds.height - appBarHeight - toolbarHeight)
     }
 }
