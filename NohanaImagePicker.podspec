@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '11.0'
   s.source_files = 'NohanaImagePicker/*.swift'
   s.resource_bundles = {
-    'NohanaImagePicker' => ['NohanaImagePicker/*.{xcassets,storyboard,lproj}']
+     'NohanaImagePicker' => ['**/*.{xcassets,storyboard,lproj}']
   }
   s.frameworks = 'UIKit', 'Photos'
 end
