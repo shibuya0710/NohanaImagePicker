@@ -16,6 +16,7 @@
 
 import UIKit
 
+@available(iOS 13.0, *)
 final class MomentDetailListViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, DetailListViewControllerProtocol {
 
     var currentIndexPath: IndexPath {
