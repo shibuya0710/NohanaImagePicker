@@ -16,6 +16,7 @@
 
 import UIKit
 
+@available(iOS 13.0, *)
 extension UIViewController {
 
     // MARK: - Toolbar
