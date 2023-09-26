@@ -17,6 +17,7 @@
 import Foundation
 import UIKit
 
+@available(iOS 13.0, *)
 class AlbumListEmptyIndicator: UILabel {
 
     init(message: String, description: String, frame: CGRect, config: NohanaImagePickerController.Config) {
