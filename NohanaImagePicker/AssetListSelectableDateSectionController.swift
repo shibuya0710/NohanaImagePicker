@@ -18,6 +18,7 @@ import Foundation
 import Photos
 import UIKit
 
+@available(iOS 13.0, *)
 class AssetListSelectableDateSectionController: UICollectionViewController, UICollectionViewDelegateFlowLayout, ActivityIndicatable {
 
     private enum Section: Int {
@@ -315,6 +316,7 @@ class AssetListSelectableDateSectionController: UICollectionViewController, UICo
 }
 
 // MARK: - AssetDateSectionHeaderViewDelegate
+@available(iOS 13.0, *)
 extension AssetListSelectableDateSectionController: AssetDateSectionHeaderViewDelegate {
     func didPushPickButton() {
         collectionView.reloadData()
@@ -323,6 +325,7 @@ extension AssetListSelectableDateSectionController: AssetDateSectionHeaderViewDe
 }
 
 // MARK: - AssetCellDelegate
+@available(iOS 13.0, *)
 extension AssetListSelectableDateSectionController: AssetCellDelegate {
     func didPushPickButton(cell: AssetCell) {
         if let indexPath = collectionView.indexPath(for: cell) {
@@ -345,7 +348,7 @@ extension AssetListSelectableDateSectionController: AssetCellDelegate {
 }
 
 // MARK: - PhotoAuthorizationLimitedCellDeletate
-
+@available(iOS 13.0, *)
 extension AssetListSelectableDateSectionController: PhotoAuthorizationLimitedCellDeletate {
     func didSelectAddPhotoButton(_ cell: PhotoAuthorizationLimitedCell) {
         nohanaImagePickerController.delegate?.nohanaImagePickerDidTapAddPhotoButton?(nohanaImagePickerController)
@@ -373,7 +376,7 @@ extension String {
 }
 
 // MARK: - PHPhotoLibraryChangeObserver
-
+@available(iOS 13.0, *)
 extension AssetListSelectableDateSectionController: PHPhotoLibraryChangeObserver {
     func photoLibraryDidChange(_ changeInstance: PHChange) {
         DispatchQueue.main.async { [weak self] in
