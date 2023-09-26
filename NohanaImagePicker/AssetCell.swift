@@ -15,10 +15,12 @@
  */
 import UIKit
 
+@available(iOS 13.0, *)
 protocol AssetCellDelegate: AnyObject {
     func didPushPickButton(cell: AssetCell)
 }
 
+@available(iOS 13.0, *)
 class AssetCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
