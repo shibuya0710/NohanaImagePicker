@@ -39,8 +39,8 @@ class AssetDetailListViewController: AssetListViewController, DetailListViewCont
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let droppedImage: UIImage? = nohanaImagePickerController.config.image.droppedLarge ?? UIImage(named: "btn_select_l", in: nohanaImagePickerController.assetBundle, compatibleWith: nil)
-        let pickedImage: UIImage? = nohanaImagePickerController.config.image.pickedLarge ?? UIImage(named: "btn_selected_l", in: nohanaImagePickerController.assetBundle, compatibleWith: nil)
+        let droppedImage: UIImage? = UIImage(named: "btn_select_l")
+        let pickedImage: UIImage? = UIImage(named: "btn_selected_l")
         
         pickButton.setImage(droppedImage, for: UIControl.State())
         pickButton.setImage(pickedImage, for: .selected)
