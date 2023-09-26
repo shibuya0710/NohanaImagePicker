@@ -17,6 +17,7 @@
 import UIKit
 import Photos
 
+@available(iOS 13.0, *)
 class RootViewController: UIViewController {
     
     private let nohanaImagePickerController: NohanaImagePickerController
@@ -235,6 +236,7 @@ class RootViewController: UIViewController {
     }
 }
 
+@available(iOS 13.0, *)
 extension RootViewController: AlbumListViewControllerDelegate {
     func didSelectMoment() {
         switchChildViewController(currentChildViewController, toViewController: fetchMomentViewController())
@@ -254,6 +256,7 @@ extension RootViewController: AlbumListViewControllerDelegate {
     }
 }
 
+@available(iOS 13.0, *)
 extension RootViewController: UIAdaptivePresentationControllerDelegate {
     func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
         return true
