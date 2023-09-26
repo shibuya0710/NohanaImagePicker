@@ -17,6 +17,7 @@
 import AVFoundation
 import UIKit
 
+@available(iOS 13.0, *)
 extension Size {
 
     static func expandingAnimationFromCellRect(_ fromVC: UICollectionViewController, fromCell: AssetCell) -> CGRect {
@@ -29,6 +30,7 @@ extension Size {
     }
 }
 
+@available(iOS 13.0, *)
 class ExpandingAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
 
     var fromCell: AssetCell
