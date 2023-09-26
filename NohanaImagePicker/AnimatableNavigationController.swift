@@ -16,6 +16,7 @@
 
 import UIKit
 
+@available(iOS 13.0, *)
 class AnimatableNavigationController: UINavigationController, UINavigationControllerDelegate {
 
     let swipeInteractionController = SwipeInteractionController()
