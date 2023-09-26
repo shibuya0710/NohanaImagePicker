@@ -16,11 +16,13 @@
 
 import UIKit
 
+@available(iOS 13.0, *)
 protocol PhotoAuthorizationLimitedCellDeletate {
     func didSelectAddPhotoButton(_ cell: PhotoAuthorizationLimitedCell)
     func didSelectAuthorizeAllPhotoButton(_ cell: PhotoAuthorizationLimitedCell)
 }
 
+@available(iOS 13.0, *)
 class PhotoAuthorizationLimitedCell: UICollectionViewCell {
 
     static var defaultReusableId: String {
