@@ -16,6 +16,7 @@
 
 import UIKit
 
+@available(iOS 13.0, *)
 extension UIApplication {
     var currentStatusBarOrientation: UIInterfaceOrientation {
         guard let orientation = windows.first(where: { $0.isKeyWindow })?.windowScene?.interfaceOrientation else {
