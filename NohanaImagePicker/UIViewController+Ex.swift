@@ -26,7 +26,7 @@ extension UIViewController {
         let rightSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
 
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .white
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 17)
         let labelItem = UIBarButtonItem(customView: label)
