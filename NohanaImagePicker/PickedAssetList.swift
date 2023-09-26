@@ -16,6 +16,7 @@
 
 import Foundation
 
+@available(iOS 13.0, *)
 class PickedAssetList: ItemList {
 
     var assetlist: Array<Asset> = []
