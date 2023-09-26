@@ -57,7 +57,7 @@ open class NohanaImagePickerController: UIViewController {
     open var canPickDateSection: Bool = false
     open var titleTextAttributes: [NSAttributedString.Key: Any] = {
         return [
-            .foregroundColor: UIColor.black,
+            .foregroundColor: UIColor.white,
             .font: UIFont.systemFont(ofSize: 17, weight: .semibold)
         ]
     }()
