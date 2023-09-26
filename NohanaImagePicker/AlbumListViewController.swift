@@ -17,12 +17,14 @@
 import UIKit
 import Photos
 
+@available(iOS 13.0, *)
 protocol AlbumListViewControllerDelegate: AnyObject {
     func didSelectMoment()
     func didSelectAlbum(album: PhotoKitAssetList)
     func willDismissViewController(viewController: AlbumListViewController)
 }
 
+@available(iOS 13.0, *)
 class AlbumListViewController: UITableViewController, EmptyIndicatable, ActivityIndicatable {
 
     enum AlbumListViewControllerSectionType: Int {
