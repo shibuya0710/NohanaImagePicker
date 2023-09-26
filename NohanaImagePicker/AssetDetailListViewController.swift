@@ -16,6 +16,7 @@
 
 import UIKit
 
+@available(iOS 13.0, *)
 class AssetDetailListViewController: AssetListViewController, DetailListViewControllerProtocol {
 
     var currentIndexPath: IndexPath = IndexPath() {
