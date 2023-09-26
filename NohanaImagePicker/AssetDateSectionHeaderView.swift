@@ -20,6 +20,7 @@ protocol AssetDateSectionHeaderViewDelegate: AnyObject {
     func didPushPickButton()
 }
 
+@available(iOS 13.0, *)
 class AssetDateSectionHeaderView: UICollectionReusableView {
     @IBOutlet weak private var dateLabel: UILabel!
     @IBOutlet weak private var pickButton: UIButton!
