@@ -17,6 +17,7 @@
 import UIKit
 import Photos
 
+@available(iOS 13.0, *)
 final class MomentViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, ActivityIndicatable {
 
     private let nohanaImagePickerController: NohanaImagePickerController
