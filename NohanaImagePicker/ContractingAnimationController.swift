@@ -17,6 +17,7 @@
 import AVFoundation
 import UIKit
 
+@available(iOS 13.0, *)
 extension Size {
     static func contractingAnimationToCellRect(_ toVC: UICollectionViewController, toCell: AssetCell) -> CGRect {
         let origin = CGPoint(x: toCell.frame.origin.x, y: toCell.frame.origin.y - toVC.collectionView!.contentOffset.y)
@@ -32,6 +33,7 @@ extension Size {
     }
 }
 
+@available(iOS 13.0, *)
 class ContractingAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
 
     var fromCell: AssetDetailCell
