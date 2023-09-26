@@ -17,6 +17,7 @@
 import UIKit
 import Photos
 
+@available(iOS 13.0, *)
 class AssetListViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     let nohanaImagePickerController: NohanaImagePickerController
